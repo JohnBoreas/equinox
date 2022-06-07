@@ -1,0 +1,75 @@
+spring:
+  application:
+    name: gateway-server
+  cloud:
+    nacos:
+      discovery:
+        # 服务地址
+        server-addr: 192.168.223.7:8848
+        # 命名空间
+        namespace: 90cf6ee2-4fd0-4e02-9958-db8266636fc5
+        # 服务分组
+        group: discovery-group
+    gateway:
+      routes:
+        - id: gateway-route
+          uri: lb://service-order  # 服务前加上lb://
+          predicates: # 断言
+            - Path=/discovery/** # 根据路径匹配
+#            - After=2019-01-20T17:42:47.789-07:00[America/Denver] # 匹配所有UTC时间Jan 20, 2019 17:42后的请求，并且路由到uri:https://service-order
+#            - Cookie=chocolate, ch.p # 当请求携带的cookie和Cookie断言工厂配置的一致，则路由匹配成功
+#            - Header=X-Request-Id, \d+ # 匹配请求头中包含 X-Request-Id 且值为一个或者多个数字的请求
+#            - Method=GET # 配置的Method对请求方式是Get
+#            - Query=foo,baz # 根据请求中的两个参数进行断言匹配
+#            - RemoteAddr=192.168.1.1/24 # 当请求IP地址在网段之内或者和配置的IP相同
+          filters:
+            - StripPrefix=1
+            - name: Hystrix # 设置熔断器
+              args:
+                name: fallbackcmd # 熔断过滤器名称
+                fallbackUri: forward:/defaultFallback # 熔断之后跳转，本项目或其他项目配置
+            - name: RequestRateLimiter # 设置限流
+              args:
+                key-resolver: #{@urlResolver}
+                redis-rate-limiter:
+                  replenishRate: 3 # 允许用户每秒处理多少个请求
+                  burstCapacity: 3 # 令牌桶的容量，允许在一秒钟内完成的最大请求数
+            - name: Retry  # 过滤器名称
+              args:
+                retries: 3 # 重试次数
+                series: # org.springframework.http.HttpStatus.Series 枚举 什么类型状态码进行重试
+                  -SERVER_ERROR
+                  -CLIENT_ERROR
+                statuses: # org.springframework.http.HttpStatus枚举值，什么状态码重试
+                  -BAD_GATEWAY
+                  -METHOD_NOT_ALLOWED
+                methods: # 什么类型方法重试
+                  -GET
+                  -POST
+                exception: # 什么异常进行重试
+                  -java.io.IOException
+                backoff: # 重试时间间隔
+                  firstBackoff: 10ms
+                  maxBackoff: 50ms
+                  factor: 2
+                  basedOnPreviousValue: false
+        - id: gateway-route-2
+          uri: lb://service-order
+          predicates:
+            - Path=/api-order/**
+          filters:
+            - StripPrefix=1
+
+  #当遇到同样名字的时候，是否允许覆盖注册
+  main:
+    allow-bean-definition-overriding: true
+server:
+  port: 9001
+
+hystrix:
+  command:
+    fallbackcmd:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 3000
