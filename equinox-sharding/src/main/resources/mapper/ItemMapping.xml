@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.equinox.sharding.dao.ItemDao">
+    
+    <resultMap id="itemResultMap" type="com.equinox.sharding.entity.ItemEntity">
+        <result column="id" property="id" jdbcType="BIGINT" />
+        <result column="item_id" property="itemId" jdbcType="BIGINT"/>
+        <result column="title" property="title" jdbcType="VARCHAR" />
+        <result property="createTime"    column="create_time" jdbcType="DATE"   />
+        <result property="updateTime"    column="update_time" jdbcType="DATE"  />
+    </resultMap>
+    
+    <insert id="addItem">
+        INSERT INTO tb_item ( item_id, title ) VALUES (#{itemId}, #{title})
+    </insert>
+   
+    <select id="list" resultMap="itemResultMap">
+        SELECT u.* FROM tb_item u order by u.id  limit 0,100
+    </select>
+
+    <delete id="deleteAll">
+        delete from tb_item;
+    </delete>
+
+    <select id="findById" resultMap="itemResultMap">
+        SELECT u.* FROM tb_item u where u.id = #{id}
+    </select>
+
+</mapper>
