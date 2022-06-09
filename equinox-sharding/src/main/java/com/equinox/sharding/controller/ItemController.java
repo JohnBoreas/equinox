@@ -25,7 +25,9 @@ public class ItemController {
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public List<ItemEntity> list(HttpServletRequest request) {
-        return service.list();
+        List<ItemEntity> list = service.list();
+        log.info(String.valueOf(list.size()));
+        return list;
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)

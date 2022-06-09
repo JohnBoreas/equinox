@@ -1,5 +1,8 @@
 package com.equinox.sharding.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 
 /**
@@ -10,11 +13,25 @@ public class ItemEntity {
 
     private static final long serialVersionUID = -1205226416664488559L;
 
+    private Long id;
     private Long itemId;
     private String title;
+
+    @SerializedName("create_time")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
+
+    @SerializedName("update_time")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Long getItemId() {
         return itemId;
