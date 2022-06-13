@@ -22,6 +22,8 @@
         <module>equinox-storage</module>
         <module>equinox-sharding</module>
         <module>equinox-sentinel</module>
+        <module>equinox-jms</module>
+        <module>equinox-actuator</module>
     </modules>
 
     <properties>

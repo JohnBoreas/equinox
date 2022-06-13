@@ -1,4 +1,4 @@
-package com.equinox.discovery.service;
+package com.equinox.discovery.configuration.service;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;

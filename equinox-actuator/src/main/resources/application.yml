@@ -1,0 +1,50 @@
+spring:
+  application:
+    name: actuator-server
+  cloud:
+    nacos:
+      discovery:
+        # 服务地址
+        server-addr: 192.168.223.7:8848
+        # 命名空间
+        namespace: 90cf6ee2-4fd0-4e02-9958-db8266636fc5
+        # 服务分组
+        group: discovery-group
+        cluster-name: SH
+        metadata:
+          version: v1
+  #启用对外提供基于JMX的endpoints
+  jmx:
+    enabled: true
+server:
+  port: 9001
+#健康检测
+# http://localhost:9001/actuator/health
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health, metrics, info"
+      #允许跨域访问
+      cors:
+        allowed-origins: "*"
+        allowed-methods: "*"
+  endpoint:
+    health:
+      show-details: always
+
+      #开发所有jmx端点
+    jmx:
+      exposure:
+        include: *
+    #http.enable=true
+info:
+  app:
+    name: actuator-server
+    description: actuator server test
+    version: 1.0.1
+    encoding: UTF-8
+    java:
+      version: 1.8
+
+
