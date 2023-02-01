@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: service-zookeeper
+  cloud:
+    nacos:
+      discovery:
+        # 服务地址
+        server-addr: 192.168.223.6:8848
+        # 命名空间
+        namespace: 90cf6ee2-4fd0-4e02-9958-db8266636fc5
+        # 服务分组
+        group: discovery-group
+server:
+  port: 3452

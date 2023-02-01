@@ -24,6 +24,9 @@
         <module>equinox-sentinel</module>
         <module>equinox-jms</module>
         <module>equinox-actuator</module>
+        <module>equinox-zookeeper</module>
+        <module>equinox-elasticsearch</module>
+        <module>equinox-webflux</module>
     </modules>
 
     <properties>

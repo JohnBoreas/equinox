@@ -28,13 +28,15 @@ public class SentinelConfiguration {
     @PostConstruct
     public void postConstruct() {
         DegradeRuleManager.loadRules(
-                Arrays.asList(this.rtDegradeRule(),
+                Arrays.asList(
+                        this.rtDegradeRule(),
                         this.ratioDegradeRule(),
                         this.countDegradeRule())
         );
-        FlowRuleManager.loadRules(Arrays.asList(
-                this.exceptionSentinelFlowRule(),
-                this.annotationSentinelFlowRule()));
+        FlowRuleManager.loadRules(
+                Arrays.asList(
+                        this.exceptionSentinelFlowRule(),
+                        this.annotationSentinelFlowRule()));
         log.info("配置限流熔断规则成功");
     }
 
