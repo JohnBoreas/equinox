@@ -1,0 +1,32 @@
+
+server:
+  port: 8088
+
+spring:
+  application:
+    name: jms-server
+  rabbitmq: # 在spring cloud项目中使用的时候，不加这个会报错，不能理解-_-
+    host: 192.168.223.5   # rabbitmq访问地址
+    port: 5672          # 端口号
+    username: equinox  # 用户名（不要使用guest）
+    password: equinox  # 密码
+    virtualHost: /
+  cloud:
+    stream:
+      binders: # 需要绑定的rabbitmq的服务信息
+        defaultRabbit:  # 定义的名称，用于bidding整合（可自定义）
+          type: rabbit  # 消息组件类型
+          environment:  # 配置rabbitmq连接环境
+            spring:
+              rabbitmq:
+                host: 192.168.223.5    # rabbitmq 服务器的地址
+                port: 5672           # rabbitmq 服务器端口
+                username: equinox   # rabbitmq 用户名
+                password: equinox   # rabbitmq 密码
+                virtual-host: /      # 虚拟路径
+      bindings:        # 服务的整合处理
+        testOutput:    # 这个是消息通道的名称
+          destination: exchange-test      # exchange名称,交换模式默认是topic;把SpringCloud stream的消息输出通道绑定到RabbitMQ的exchange-saveOrder交换器。
+          content-type: application/json  # 设置消息的类型，本次为json
+          default-binder: defaultRabbit   # 与定义的名称一致
+          group: saveOrderGroup           # 分组

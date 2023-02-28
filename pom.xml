@@ -27,6 +27,7 @@
         <module>equinox-zookeeper</module>
         <module>equinox-elasticsearch</module>
         <module>equinox-webflux</module>
+        <module>equinox-webflow</module>
     </modules>
 
     <properties>

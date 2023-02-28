@@ -26,7 +26,7 @@ public class WebfluxController {
     // Mono 实现了 org.reactivestreams.Publisher 接口，代表0到1个元素的发布者。
     @RequestMapping("/mono")
     public Mono<String> mono() {
-        return Mono.just("hello webflux");
+        return Mono.just("hello webflux");// .just创建数据源
     }
 
     // Flux 同样实现了 org.reactivestreams.Publisher 接口，代表0到N个元素的发表者。
