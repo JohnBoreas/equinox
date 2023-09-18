@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: service-autoai
+server:
+  port: 2301

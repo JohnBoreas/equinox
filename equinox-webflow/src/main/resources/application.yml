@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: service-webflux
+server:
+  port: 7001

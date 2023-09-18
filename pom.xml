@@ -28,6 +28,9 @@
         <module>equinox-elasticsearch</module>
         <module>equinox-webflux</module>
         <module>equinox-webflow</module>
+        <module>equinox-autoai</module>
+        <module>equinox-common</module>
+        <module>equinox-vue</module>
     </modules>
 
     <properties>
